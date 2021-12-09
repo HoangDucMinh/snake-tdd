@@ -7,6 +7,7 @@ const _tail = require("lodash/tail");
 class Snake {
   constructor() {
     this.cells = [new Cell(9, 9)];
+    this.direction = "east";
   }
   getHead() {
     return this.cells[this.cells.length - 1];
@@ -28,22 +29,38 @@ class Snake {
       return new Cell(curHead.col, curHead.row + 1);
     }
   }
-  move(direction) {
-    const newHead = this.makeHead(direction);
+  move() {
+    const newHead = this.makeHead(this.direction);
     this.checkWall(newHead);
     this.cells = [...this.cells.slice(1), newHead];
   }
   goEast = () => {
-    this.move("east");
+    if (this.direction === "west") {
+      return;
+    }
+    this.direction = "east";
+    this.move();
   };
   goWest = () => {
-    this.move("west");
+    if (this.direction === "east") {
+      return;
+    }
+    this.direction = "west";
+    this.move();
   };
   goNorth = () => {
-    this.move("north");
+    if (this.direction === "south") {
+      return;
+    }
+    this.direction = "north";
+    this.move();
   };
   goSouth = () => {
-    this.move("south");
+    if (this.direction === "north") {
+      return;
+    }
+    this.direction = "south";
+    this.move();
   };
   addNode = (cell) => {
     this.cells.push(cell);
